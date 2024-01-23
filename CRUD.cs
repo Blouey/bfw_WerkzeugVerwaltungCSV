@@ -10,6 +10,7 @@ public class CRUD
         {
             List<Tool> tools = GetAll(Path);
             tools.Add(tool);
+            
             WriteToCsv(tools);
             return true;
         }
@@ -122,15 +123,19 @@ public class CRUD
         {
             string[] comments = ReadFromCsv();
             List<string> lines = new List<string>();
+            
             foreach (string comment in comments)
             {
                 if(comment[0].Equals('#')) lines.Add(comment);
             }
+            tools.Sort();
             foreach (Tool tool in tools)
             {
                 lines.Add($"{tool.WerkzeugId};{tool.Bezeichnung};{tool.Preis};{tool.Lagerbestand}");
             }
-
+            
+            //lines = DistinctList(lines);
+            
             File.WriteAllLines(Path, lines);
             return true;
         }
@@ -140,6 +145,7 @@ public class CRUD
             return false;
         }
     }
+    
     
     private string[] ReadFromCsv()
     {

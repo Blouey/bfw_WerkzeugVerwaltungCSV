@@ -1,5 +1,5 @@
 ﻿namespace NewCSVConsoleApp;
-
+using static CRUD;
 internal class CSV
 {
     public static string Path = @"..\..\..\Werkzeug.csv";
@@ -7,8 +7,7 @@ internal class CSV
     public static string[] Read(string? path)
     {
         if (path == null) path = Path;
-
-        Console.WriteLine("Csv.Read()");
+        
         return File.ReadAllLines(path);
     }
 
@@ -60,4 +59,6 @@ internal class CSV
             return new List<Tool>();
         }
     }
+    
+    
 }

@@ -1,6 +1,6 @@
 ﻿namespace NewCSVConsoleApp;
 using static CSV;
-public class Tool
+public class Tool:IComparable<Tool>
 {
     public int WerkzeugId { get; set; }
     public string Bezeichnung { get; set; }
@@ -16,7 +16,12 @@ public class Tool
         Preis = preis;
         Lagerbestand = lagerbestand;
     }
-
+    
+    public int CompareTo(Tool? other)
+    {
+        return WerkzeugId.CompareTo(other?.WerkzeugId);
+    }
+    
     private int newId()
     {
        List<Tool> check = GetAll(Path);
@@ -40,7 +45,7 @@ public class Tool
     public override string ToString()
     {
         return
-            $"{nameof(WerkzeugId)}: {WerkzeugId}, {nameof(Bezeichnung)}: {Bezeichnung}, {nameof(Preis)}: {Preis:C2}, {nameof(Lagerbestand)}: {Lagerbestand}";
+            $"{nameof(WerkzeugId)}: {WerkzeugId}, {nameof(Bezeichnung)}: {Bezeichnung, -20}, {nameof(Preis)}: {Preis, 9:C2}, {nameof(Lagerbestand)}: {Lagerbestand}";
     }
     public void Print()
     {
