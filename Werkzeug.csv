@@ -1,0 +1,23 @@
+#ChatGPT Prompt:
+#Erzeuge eine CSV-Datei mit 10 Datensätzen. Jeder Datensatz stellt ein Werkzeug dar.
+#Ein Werkzeug besteht aus den Spalten "Werkzeug-ID", "Bezeichnung", "Preis" und "Lagerbestand".
+#Der Preis ist ein double.
+#Die Spalten sind Semikolon getrennt.
+#Der Dezimaltrenner beim Preis ist ein Komma.
+#Die Nachkommawerte beim Preis können 19, 49, 79 oder 99 sein.
+#Die Werkzeug-ID ist 4 stellig.
+# --- Werkzeug Repository --- 
+#Werkzeug-ID;Bezeichnung;Preis;Lagerbestand
+1001;Schraubenzieher;12,79;50
+1002;Hammer;19,99;30
+1003;Bohrmaschine;149,49;15
+1004;Zange;8,19;40
+1005;Schraubenschlüssel;7,99;25
+1006;Säge;29,79;20
+1008;Akkuschrauber;89,99;10
+1009;Messer;5,99;50
+1010;Stechbeitel;9,99;18
+1011;Hammer;5,99;10
+1012;Hammer;5,99;10
+1013;Hammer;5,99;10
+1007;Wasserwaage;14,49;35
