@@ -60,5 +60,13 @@ internal class CSV
         }
     }
     
-    
+    public static void PrintAll()
+    {
+        List<Tool> tools = GetAll(Path);
+        Other.Loader();
+        foreach (Tool tool in tools)
+        {
+            tool.Print();
+        }
+    }
 }

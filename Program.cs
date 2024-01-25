@@ -1,4 +1,6 @@
-﻿using System.Text;
+﻿using static NewCSVConsoleApp.CSV;
+using static NewCSVConsoleApp.Other;
+using System.Text;
 
 namespace NewCSVConsoleApp;
 
@@ -6,7 +8,7 @@ class Program
 {
     static void Main(string[] args)
     {
-        Console.Clear();
+        
         Console.OutputEncoding = Encoding.UTF8;
         CRUD crud = new CRUD();
 
@@ -15,60 +17,58 @@ class Program
         {
             case 0:
                 Console.WriteLine("no arguments given");
-                Console.WriteLine("enter \"help\" or \"?\" for more information");
+                Console.WriteLine("enter \"--help\" or \"/?\" for more information");
                 break;
             case 1:
                 switch (args[0])
                 {
                     case "help":
-                    case "?":
-                        Console.WriteLine("help");
-                        Console.WriteLine("add <bezeichnung> <preis> <lagerbestand>             - zum hinzufügen eines Werkzeugs");
-                        Console.WriteLine("delete <id>                                          - zum löschen eines Werkzeugs");
-                        Console.WriteLine("sort                                                 - zum sortieren der Werkzeuge aufteigend nach ID");
-                        Console.WriteLine("sort <id|bezeichnung|preis|lagerbestand> <asc|desc>  - zum sortieren der Werkzeuge");
-                        Console.WriteLine("print                                                - zum ausgeben aller Werkzeuge");
-                        Console.WriteLine("print <id>                                           - zum ausgeben eines Werkzeugs");
-                        Console.WriteLine("exit                                                 - zum beenden des Programms");
+                    case "/?":
+                        Console.WriteLine("--help");
+                        Console.WriteLine("--add <bezeichnung> <preis> <lagerbestand>             - zum hinzufügen eines Werkzeugs");
+                        Console.WriteLine("--delete <id>                                          - zum löschen eines Werkzeugs");
+                        Console.WriteLine("--sort                                                 - zum sortieren der Werkzeuge aufteigend nach ID");
+                        Console.WriteLine("--sort <id|bezeichnung|preis|lagerbestand> <asc|desc>  - zum sortieren der Werkzeuge");
+                        Console.WriteLine("--print                                                - zum ausgeben aller Werkzeuge");
+                        Console.WriteLine("--print <id>                                           - zum ausgeben eines Werkzeugs");
+                        Console.WriteLine("--clear                                                - zum leeren der Konsole");
+                        Console.WriteLine("--exit                                                 - zum beenden des Programms");
                         break;
-                    case "print":
-                        foreach (Tool tool in crud.GetAllTools())
-                        {
-                            tool.Print();
-                        }
+                    case "--print":
+                        Loader();
+                        Lul();
+                        PrintAll();
                         break;
-                    case "sort":
+                    case "--sort":
                         List<Tool> tools = crud.GetAllTools();
                         tools.Sort();
-                        foreach (Tool tool in tools)
-                        {
-                            tool.Print();
-                        }
+                        PrintAll();
                         break;
-                    case "exit":
-                        System.Environment.Exit(0);
+                    case "--clear":
+                        Console.Clear();
+                        break;
+                    case "--exit":
+                        Environment.Exit(0);
                         break;
                     default:
-                        Console.WriteLine("invalid argument");
-                        Console.WriteLine("enter \"help\" or \"?\" for more information");
+                        InvalidArgs();
                         break;
                 }
                 break;
             case 2:
                 switch (args[0])
                 {
-                    case "delete":
+                    case "--delete":
                         if (int.TryParse(args[1], out int id))
                         {
                             crud.DeleteToolById(id);
                         }
                         else
                         {
-                            Console.WriteLine("invalid argument");
-                            Console.WriteLine("enter \"help\" or \"?\" for more information");
+                            InvalidArgs();
                         }
                         break;
-                    case "print":
+                    case "--print":
                         if(int.TryParse(args[1], out int id2))
                         {
                             Tool tool = crud.GetToolById(id2);
@@ -76,14 +76,13 @@ class Program
                         }
                         else
                         {
-                            Console.WriteLine("invalid argument");
-                            Console.WriteLine("enter \"help\" or \"?\" for more information");
+                            InvalidArgs();
                         }
                         break;
                 }
                 break;
             case 3:
-                if(args[0].Equals("sort"))
+                if(args[0].Equals("--sort"))
                 {
                     List<Tool> tools = crud.GetAllTools();
                     switch (args[1])
@@ -98,8 +97,7 @@ class Program
                                     tools.Sort(new Sorter.IdDesc());
                                     break;
                                 default:
-                                    Console.WriteLine("invalid argument");
-                                    Console.WriteLine("enter \"help\" or \"?\" for more information");
+                                    InvalidArgs();
                                     return;
                             }
                             break;
@@ -113,8 +111,7 @@ class Program
                                     tools.Sort(new Sorter.BezeichnungDesc());
                                     break;
                                 default:
-                                    Console.WriteLine("invalid argument");
-                                    Console.WriteLine("enter \"help\" or \"?\" for more information");
+                                    InvalidArgs();
                                     return;
                             }
                             break;
@@ -128,8 +125,7 @@ class Program
                                     tools.Sort(new Sorter.PreisDesc());
                                     break;
                                 default:
-                                    Console.WriteLine("invalid argument");
-                                    Console.WriteLine("enter \"help\" or \"?\" for more information");
+                                    InvalidArgs();
                                     return;
                             }
                             break;
@@ -143,29 +139,23 @@ class Program
                                     tools.Sort(new Sorter.BestandDesc());
                                     break;
                                 default:
-                                    Console.WriteLine("invalid argument");
-                                    Console.WriteLine("enter \"help\" or \"?\" for more information");
+                                    InvalidArgs();
                                     return;
                             }
                             break;
                         default:
-                            Console.WriteLine("invalid argument");
-                            Console.WriteLine("enter \"help\" or \"?\" for more information");
+                            InvalidArgs();
                             return;
                     }
-                    foreach (Tool tool in tools)
-                    {
-                        tool.Print();
-                    }
+                    PrintAll();
                 }
                 else
                 {
-                    Console.WriteLine("invalid argument");
-                    Console.WriteLine("enter \"help\" or \"?\" for more information");
+                    InvalidArgs();
                 }
                 break;
             case 4:
-                if (args[0].Equals("add"))
+                if (args[0].Equals("--add"))
                 {
                     if (double.TryParse(args[2], out double preis) && int.TryParse(args[3], out int lagerbestand))
                     {
@@ -173,18 +163,16 @@ class Program
                     }
                     else
                     {
-                        Console.WriteLine("invalid argument");
-                        Console.WriteLine("enter \"help\" or \"?\" for more information");
+                        InvalidArgs();
                     }
                 }
                 else
                 {
-                    Console.WriteLine("invalid argument");
-                    Console.WriteLine("enter \"help\" or \"?\" for more information");
+                    InvalidArgs();
                 }
                 break;
             default:
-                Console.WriteLine("too many arguments given");
+                InvalidArgs();
                 break;
         }
         
